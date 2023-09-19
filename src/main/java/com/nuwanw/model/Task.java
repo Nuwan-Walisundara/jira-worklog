@@ -11,8 +11,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class Clockwork {
-    private String url;
-    private String token;
-    private Task dailyStandupJira;
+public class Task {
+   private String key;
+   private String oodoTask;
 }

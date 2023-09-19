@@ -1,8 +1,11 @@
 package com.nuwanw;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.Instant;
@@ -32,8 +35,17 @@ private static StringBuilder urlstr =  new StringBuilder();
 private static String CLOCKY_APPENDER = "/v1/worklogs?expand=issues,authors,worklogs&";
     public static void main( String[] args ) throws Exception
     {
-       
-        read();
+        InputStream inputStream =null;
+        try {
+          inputStream=   new FileInputStream(
+                (System.getProperty("user.home") + File.separator + ".jira-work" + File.separator + "config.yaml"));
+
+        } catch (FileNotFoundException e) {
+            
+           System.out.println();
+        }
+        
+        read(inputStream);
         urlstr.append(clockyUrl()).append(CLOCKY_APPENDER );
         
          DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YYYY-MM-dd");
@@ -74,7 +86,7 @@ private static String CLOCKY_APPENDER = "/v1/worklogs?expand=issues,authors,work
                                         CSV_HEADER_DESCRIPTION,
                                         CSV_HEADER_PROJECT,CSV_HEADER_TASK,
                                         CSV_HEADER_QUENTITY});
-      
+      //https://www.chakray.com/how-to-write-a-synapse-handler-wso2-integrator/
 
 
     StreamSupport.stream(rootNode.spliterator(), false)
@@ -82,9 +94,10 @@ private static String CLOCKY_APPENDER = "/v1/worklogs?expand=issues,authors,work
                                                 .map(e-> new String[]{
                                                    toOOdoFormat( e.get("created").asText()),
                                                     e.path("author").path("displayName").asText(),
-                                                    "["+e.path("issue").path("key").asText()+"]"+e.findValue("summary") .asText(),
+                                                    "["+e.path("issue").path("key").asText()+"] - "+e.findValue("summary") .asText(),
                                                     project(), 
-                                                    mapToOOdoTask( e.path("author").path("displayName").asText(),e.get("comment").asText()),
+                                                    mapToOOdoTask( e.path("author").path("displayName").asText(),e.get("comment").asText(),
+                                                    e.path("issue").path("key").asText()),
                                                     String.valueOf( e.path("timeSpentSeconds") .asDouble()/3600)}
                                                    ).forEach(a -> writer.writeNext(a));;
 
