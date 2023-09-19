@@ -25,7 +25,7 @@ users : # intended users which needs to generate the report
       defaultTask: Design #Default task in case there is no task specifically mensioned at the time log comment 
 ```
 ## How to run
-1. Download the jar and navigate from a terminal.
+1. Download the executable jar from the latest release and navigate from a terminal.
 2. Run the following command.
  `java -jar jira-worklog-<version>.jar`
 3. This will generate a csv on the same location. The generated csv can be directly imported into the Oodo.
