@@ -1,12 +1,12 @@
 # Summery
-- extract the jira time log using ClockWork api and generate csv file. The file can be used to import the time into OODo.
+- Utilize the ClockWork API to retrieve the Jira time log and create a CSV file, which can then be employed for importing time data into OODo.
 ## Prerequisits
 
 - Java 11 or above
 - Clokckwork Free enabled Jira platform.
 
 ## Profile configuration
-User profile configuration has to defined on a filed called config.yaml. This file needs to be place on <User HOME>/.jira-work/ directory
+The configuration of a user profile should be specified within a file named "config.yaml," and this file should be located in the "/.jira-work/" directory.
 
 ```yaml
 clockwork :
